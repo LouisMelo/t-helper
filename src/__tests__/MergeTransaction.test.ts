@@ -1,4 +1,5 @@
-import { MergeTransactions, Transaction } from '../index'
+import { MergeSuccessState, MergeTransactions, Transaction } from '../index';
+import { withSameAmount, withSameCode } from '../tools';
 
 const buy: Transaction = {
   _id: '0001',
@@ -8,7 +9,7 @@ const buy: Transaction = {
   price: 23.6,
   date: new Date(),
   uid: '0001',
-}
+};
 
 const sell: Transaction = {
   _id: '0002',
@@ -18,13 +19,21 @@ const sell: Transaction = {
   price: 24.6,
   date: new Date(),
   uid: '0001',
-}
+};
 
-test('total amount', () => {
-  expect(MergeTransactions([buy, sell]).totalAmount).toBe(2000)
-})
+test('same amount', () => {
+  expect(withSameAmount([buy, sell])).toBe(true);
+});
+
+test('same code', () => {
+  expect(withSameCode([buy, sell])).toBe(true);
+});
+
+test('mergeSuccess', () => {
+  expect(MergeTransactions([buy, sell]).state).toBe('success');
+});
 
 test('profit', () => {
-  expect(MergeTransactions([buy, sell]).profit).toBeGreaterThan(1000)
-  expect(MergeTransactions([buy, sell]).profit).toBeLessThan(2000)
-})
+  expect((MergeTransactions([buy, sell]) as MergeSuccessState).data.profit).toBeGreaterThan(1000);
+  expect((MergeTransactions([buy, sell]) as MergeSuccessState).data.profit).toBeLessThan(2000);
+});
