@@ -1,6 +1,6 @@
 {
   "name": "@louismelo/t-helper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "transaction helpers for t-base",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
